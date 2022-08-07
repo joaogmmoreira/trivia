@@ -1,7 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { loginAction } from '../Redux/actions';
+import { loginAction, getTokenThunk } from '../Redux/actions';
 
 class Login extends React.Component {
   constructor() {
@@ -23,6 +24,15 @@ class Login extends React.Component {
     });
   }
 
+  componentDidMount() {
+    this.fetchToken();
+  }
+
+  fetchToken() {
+    const { getToken } = this.props;
+    getToken();
+  }
+
   handleButton = () => {
     const { email, name } = this.state;
     const valid = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -39,10 +49,8 @@ class Login extends React.Component {
   }
 
   handleLogin = () => {
-    // const { history, dispatchLogin } = this.props;
-    // const { email } = this.state;
-    // dispatchLogin(email);
-    // history.push('/carteira');
+    const { token } = this.props;
+    localStorage.setItem('token', token);
   }
 
   render() {
@@ -70,14 +78,16 @@ class Login extends React.Component {
             />
           </div>
           <div>
-            <button
-              data-testid="btn-play"
-              type="button"
-              disabled={ isPlayButtonDisabled }
-              onClick={ this.handleLogin }
-            >
-              Play
-            </button>
+            <Link to ="quiz">
+              <button
+                data-testid="btn-play"
+                type="button"
+                disabled={ isPlayButtonDisabled }
+                onClick={ this.handleLogin }
+              >
+                Play
+              </button>
+            </Link>
           </div>
         </form>
       </div>
@@ -87,13 +97,20 @@ class Login extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   dispatchLogin: (value) => dispatch(loginAction(value)),
+  getToken: () => dispatch(getTokenThunk()),
 });
 
+const mapStateToProps = (state) => ({
+  token: state.token.token,
+});
+
+
 Login.propTypes = {
+  getToken: propTypes.func.isRequired,
   history: propTypes.shape({
     push: propTypes.func,
   }).isRequired,
   // dispatchLogin: propTypes.func.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
