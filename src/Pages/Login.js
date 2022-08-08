@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Gear } from 'phosphor-react';
 import { loginAction, getTokenThunk } from '../Redux/actions';
 
 class Login extends React.Component {
@@ -15,6 +16,10 @@ class Login extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.fetchToken();
+  }
+
   onInputChange = ({ target }) => {
     const { name, value } = target;
     this.setState({
@@ -22,15 +27,6 @@ class Login extends React.Component {
     }, () => {
       this.handleButton();
     });
-  }
-
-  componentDidMount() {
-    this.fetchToken();
-  }
-
-  fetchToken() {
-    const { getToken } = this.props;
-    getToken();
   }
 
   handleButton = () => {
@@ -53,11 +49,28 @@ class Login extends React.Component {
     localStorage.setItem('token', token);
   }
 
+  fetchToken() {
+    const { getToken } = this.props;
+    getToken();
+  }
+
   render() {
     const { isPlayButtonDisabled, email, name } = this.state;
 
     return (
       <div>
+
+        <div className="settings">
+          <Link to="Settings">
+            <button
+              type="button"
+              data-testid="btn-settings"
+            >
+              <Gear size={ 20 } />
+            </button>
+          </Link>
+        </div>
+
         <form>
           <input
             data-testid="input-gravatar-email"
@@ -78,7 +91,7 @@ class Login extends React.Component {
             />
           </div>
           <div>
-            <Link to ="quiz">
+            <Link to="quiz">
               <button
                 data-testid="btn-play"
                 type="button"
@@ -104,12 +117,12 @@ const mapStateToProps = (state) => ({
   token: state.token.token,
 });
 
-
 Login.propTypes = {
   getToken: propTypes.func.isRequired,
   history: propTypes.shape({
     push: propTypes.func,
   }).isRequired,
+  token: propTypes.string.isRequired,
   // dispatchLogin: propTypes.func.isRequired,
 };
 
