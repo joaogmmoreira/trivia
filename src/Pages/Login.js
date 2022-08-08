@@ -1,7 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { loginAction } from '../Redux/actions';
+import { Gear } from 'phosphor-react';
+import { loginAction, getTokenThunk } from '../Redux/actions';
 
 class Login extends React.Component {
   constructor() {
@@ -12,6 +14,10 @@ class Login extends React.Component {
       name: '',
       isPlayButtonDisabled: true,
     };
+  }
+
+  componentDidMount() {
+    this.fetchToken();
   }
 
   onInputChange = ({ target }) => {
@@ -39,10 +45,13 @@ class Login extends React.Component {
   }
 
   handleLogin = () => {
-    // const { history, dispatchLogin } = this.props;
-    // const { email } = this.state;
-    // dispatchLogin(email);
-    // history.push('/carteira');
+    const { token } = this.props;
+    localStorage.setItem('token', token);
+  }
+
+  fetchToken() {
+    const { getToken } = this.props;
+    getToken();
   }
 
   render() {
@@ -50,6 +59,18 @@ class Login extends React.Component {
 
     return (
       <div>
+
+        <div className="settings">
+          <Link to="Settings">
+            <button
+              type="button"
+              data-testid="btn-settings"
+            >
+              <Gear size={ 20 } />
+            </button>
+          </Link>
+        </div>
+
         <form>
           <input
             data-testid="input-gravatar-email"
@@ -70,14 +91,16 @@ class Login extends React.Component {
             />
           </div>
           <div>
-            <button
-              data-testid="btn-play"
-              type="button"
-              disabled={ isPlayButtonDisabled }
-              onClick={ this.handleLogin }
-            >
-              Play
-            </button>
+            <Link to="quiz">
+              <button
+                data-testid="btn-play"
+                type="button"
+                disabled={ isPlayButtonDisabled }
+                onClick={ this.handleLogin }
+              >
+                Play
+              </button>
+            </Link>
           </div>
         </form>
       </div>
@@ -87,13 +110,20 @@ class Login extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   dispatchLogin: (value) => dispatch(loginAction(value)),
+  getToken: () => dispatch(getTokenThunk()),
+});
+
+const mapStateToProps = (state) => ({
+  token: state.token.token,
 });
 
 Login.propTypes = {
+  getToken: propTypes.func.isRequired,
   history: propTypes.shape({
     push: propTypes.func,
   }).isRequired,
+  token: propTypes.string.isRequired,
   // dispatchLogin: propTypes.func.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
