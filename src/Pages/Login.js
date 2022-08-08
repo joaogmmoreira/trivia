@@ -15,6 +15,10 @@ class Login extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.fetchToken();
+  }
+
   onInputChange = ({ target }) => {
     const { name, value } = target;
     this.setState({
@@ -22,15 +26,6 @@ class Login extends React.Component {
     }, () => {
       this.handleButton();
     });
-  }
-
-  componentDidMount() {
-    this.fetchToken();
-  }
-
-  fetchToken() {
-    const { getToken } = this.props;
-    getToken();
   }
 
   handleButton = () => {
@@ -51,6 +46,11 @@ class Login extends React.Component {
   handleLogin = () => {
     const { token } = this.props;
     localStorage.setItem('token', token);
+  }
+
+  fetchToken() {
+    const { getToken } = this.props;
+    getToken();
   }
 
   render() {
@@ -78,7 +78,7 @@ class Login extends React.Component {
             />
           </div>
           <div>
-            <Link to ="quiz">
+            <Link to="quiz">
               <button
                 data-testid="btn-play"
                 type="button"
@@ -104,9 +104,9 @@ const mapStateToProps = (state) => ({
   token: state.token.token,
 });
 
-
 Login.propTypes = {
   getToken: propTypes.func.isRequired,
+  token: propTypes.string.isRequired,
   history: propTypes.shape({
     push: propTypes.func,
   }).isRequired,
