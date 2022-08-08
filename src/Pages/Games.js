@@ -46,9 +46,13 @@ class Games extends React.Component {
         <div data-testid="question-text">
           {element.question}
         </div>
-        <button type="button" data-testid="answer-options">
-          {element.incorrect_answers}
-        </button>
+        <div type="button" data-testid="answer-options">
+          {element.incorrect_answers.map((incorrectAnswer, index2) => (
+            <button key={ index2 } type="button">
+              {incorrectAnswer}
+            </button>
+          ))}
+        </div>
       </>
     ))[questionNumber];
   }
