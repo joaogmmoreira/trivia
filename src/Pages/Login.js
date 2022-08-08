@@ -15,6 +15,10 @@ class Login extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.fetchToken();
+  }
+
   onInputChange = ({ target }) => {
     const { name, value } = target;
     this.setState({
@@ -24,17 +28,9 @@ class Login extends React.Component {
     });
   }
 
-  componentDidMount() {
-    this.fetchToken();
-  }
-
-  fetchToken() {
-    const { getToken } = this.props;
-    getToken();
-  }
-
   handleButton = () => {
     const { email, name } = this.state;
+
     const valid = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     // https://www.simplilearn.com/tutorials/javascript-tutorial/email-validation-in-javascript
 
@@ -49,8 +45,15 @@ class Login extends React.Component {
   }
 
   handleLogin = () => {
-    const { token } = this.props;
+    const { token, dispatchLogin } = this.props;
+
     localStorage.setItem('token', token);
+    dispatchLogin({ ...this.state });
+  }
+
+  fetchToken() {
+    const { getToken } = this.props;
+    getToken();
   }
 
   render() {
@@ -78,7 +81,7 @@ class Login extends React.Component {
             />
           </div>
           <div>
-            <Link to ="quiz">
+            <Link to="quiz">
               <button
                 data-testid="btn-play"
                 type="button"
@@ -104,13 +107,12 @@ const mapStateToProps = (state) => ({
   token: state.token.token,
 });
 
-
 Login.propTypes = {
   getToken: propTypes.func.isRequired,
   history: propTypes.shape({
     push: propTypes.func,
   }).isRequired,
-  // dispatchLogin: propTypes.func.isRequired,
+  dispatchLogin: propTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
