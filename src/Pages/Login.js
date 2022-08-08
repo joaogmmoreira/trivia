@@ -31,6 +31,7 @@ class Login extends React.Component {
 
   handleButton = () => {
     const { email, name } = this.state;
+
     const valid = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     // https://www.simplilearn.com/tutorials/javascript-tutorial/email-validation-in-javascript
 
@@ -45,8 +46,15 @@ class Login extends React.Component {
   }
 
   handleLogin = () => {
-    const { token } = this.props;
+    const { token, dispatchLogin } = this.props;
+
     localStorage.setItem('token', token);
+    dispatchLogin({ ...this.state });
+  }
+
+  fetchToken() {
+    const { getToken } = this.props;
+    getToken();
   }
 
   fetchToken() {
@@ -123,7 +131,7 @@ Login.propTypes = {
   history: propTypes.shape({
     push: propTypes.func,
   }).isRequired,
-  // dispatchLogin: propTypes.func.isRequired,
+  dispatchLogin: propTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

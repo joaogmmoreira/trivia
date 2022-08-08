@@ -2,9 +2,11 @@ export const GET_TOKEN = 'GET_TOKEN';
 export const GET_TOKEN_SUCCESS = 'GET_TOKEN_SUCCESS';
 export const GET_TOKEN_FAILED = 'GET_TOKEN_FAILED';
 
-export const loginAction = (value) => ({
-  type: 'LOGIN',
-  value,
+export const LOGIN = 'LOGIN';
+
+export const loginAction = (payload) => ({
+  type: LOGIN,
+  payload,
 });
 
 export const requestCurrencies = () => ({
