@@ -57,11 +57,6 @@ class Login extends React.Component {
     getToken();
   }
 
-  fetchToken() {
-    const { getToken } = this.props;
-    getToken();
-  }
-
   render() {
     const { isPlayButtonDisabled, email, name } = this.state;
 
