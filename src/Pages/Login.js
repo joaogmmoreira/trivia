@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Gear } from 'phosphor-react';
 import { loginAction, getTokenThunk } from '../Redux/actions';
 
 class Login extends React.Component {
@@ -56,11 +57,28 @@ class Login extends React.Component {
     getToken();
   }
 
+  fetchToken() {
+    const { getToken } = this.props;
+    getToken();
+  }
+
   render() {
     const { isPlayButtonDisabled, email, name } = this.state;
 
     return (
       <div>
+
+        <div className="settings">
+          <Link to="Settings">
+            <button
+              type="button"
+              data-testid="btn-settings"
+            >
+              <Gear size={ 20 } />
+            </button>
+          </Link>
+        </div>
+
         <form>
           <input
             data-testid="input-gravatar-email"
@@ -109,6 +127,7 @@ const mapStateToProps = (state) => ({
 
 Login.propTypes = {
   getToken: propTypes.func.isRequired,
+  token: propTypes.string.isRequired,
   history: propTypes.shape({
     push: propTypes.func,
   }).isRequired,
