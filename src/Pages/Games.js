@@ -8,30 +8,59 @@ class Games extends React.Component {
     super();
 
     this.state = {
-
+      questions: [],
+      questionNumber: 0,
     };
   }
 
   componentDidMount() {
-    this.getQuestions();
+    this.saveQuestionsToState();
   }
 
-  getQuestions = async () => {
+  saveQuestionsToState = async () => {
     const { history } = this.props;
     const questions = await fetchQuestions();
-    console.log(questions);
+    // console.log(questions.results);
 
     if (questions.response_code !== 0) {
       // console.log('oi');
       localStorage.removeItem('token');
       history.push('/');
     }
-    return questions.results;
+
+    return this.setState({
+      questions: questions.results,
+    });
+    // console.log(this.state);
+  }
+
+  renderQuestionsAndAnswers = () => {
+    const { questions, questionNumber } = this.state;
+    // console.log(this.state);
+
+    return questions.map((element, index) => (
+      <>
+        <div key={ index } data-testid="question-category">
+          { element.category }
+        </div>
+        <div data-testid="question-text">
+          {element.question}
+        </div>
+        <button type="button" data-testid="answer-options">
+          {element.incorrect_answers}
+        </button>
+      </>
+    ))[questionNumber];
   }
 
   render() {
     return (
-      <Header />
+      <div>
+        <Header />
+        <div>
+          {this.renderQuestionsAndAnswers()}
+        </div>
+      </div>
     );
   }
 }
