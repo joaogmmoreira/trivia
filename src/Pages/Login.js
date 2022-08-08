@@ -123,7 +123,6 @@ Login.propTypes = {
   history: propTypes.shape({
     push: propTypes.func,
   }).isRequired,
-  token: propTypes.string.isRequired,
   // dispatchLogin: propTypes.func.isRequired,
 };
 
