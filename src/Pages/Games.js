@@ -3,6 +3,7 @@ import React from 'react';
 import Header from '../Components/Header';
 import fetchQuestions from '../Services/fetchQuestions';
 
+// https://stackoverflow.com/questions/64522159/shuffle-the-array-of-objects-without-picking-the-same-item-multiple-times
 function shuffle(array) {
   let currentIndex = array.length; let
     randomIndex;
@@ -38,10 +39,8 @@ class Games extends React.Component {
   saveQuestionsToState = async () => {
     const { history } = this.props;
     const questions = await fetchQuestions();
-    // console.log(questions.results);
 
     if (questions.response_code !== 0) {
-      // console.log('oi');
       localStorage.removeItem('token');
       history.push('/');
     }
@@ -49,12 +48,10 @@ class Games extends React.Component {
     return this.setState({
       questions: questions.results,
     });
-    // console.log(this.state);
   }
 
   renderQuestionsAndAnswers = () => {
     const { questions, questionNumber } = this.state;
-    console.log({ questions, questionNumber });
 
     return questions.map((element, index) => {
       let answers = [];

@@ -1,4 +1,4 @@
-import { REQUEST_GRAVATAR_FAILED, REQUEST_GRAVATAR_SUCCESS } from '../actions';
+// import { REQUEST_GRAVATAR_FAILED, REQUEST_GRAVATAR_SUCCESS } from '../actions/index';
 
 const INITIAL_STATE = {
 
