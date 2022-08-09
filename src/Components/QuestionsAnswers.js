@@ -1,17 +1,14 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import Header from '../Components/Header';
-import QuestionsAnswers from '../Components/QuestionsAnswers';
-
+import PropTypes from 'prop-types';
 import fetchQuestions from '../Services/fetchQuestions';
-import Timer from '../Components/Timer';
-import { decreaseCountdown } from '../Redux/actions';
+import NextButton from './NextButton';
 
 // https://stackoverflow.com/questions/64522159/shuffle-the-array-of-objects-without-picking-the-same-item-multiple-times
 function shuffle(array) {
   let currentIndex = array.length; let
     randomIndex;
 
+  // While there remain elements to shuffle.
   while (currentIndex !== 0) {
     // Pick a remaining element.
     randomIndex = Math.floor(Math.random() * currentIndex);
@@ -21,29 +18,23 @@ function shuffle(array) {
     [array[currentIndex], array[randomIndex]] = [
       array[randomIndex], array[currentIndex]];
   }
+
   return array;
 }
 
-class Games extends React.Component {
+class QuestionAnswers extends React.Component {
   constructor() {
     super();
 
     this.state = {
       questions: [],
       questionNumber: 0,
-      buttonDisabled: false,
+      buttonNext: false,
     };
   }
 
   componentDidMount() {
     this.saveQuestionsToState();
-  }
-
-  componentDidUpdate() {
-    const { timer } = this.props;
-    if (timer <= 0) {
-      clearInterval(this.setUpdateTimer);
-    }
   }
 
   saveQuestionsToState = async () => {
@@ -57,27 +48,11 @@ class Games extends React.Component {
 
     return this.setState({
       questions: questions.results,
-    }, () => { this.updateCountdown(); this.startTime(); });
-    // console.log(this.state);
+    });
   }
 
-  // handleButtons(disabled) {
-  //   this.setState({
-  //     buttonDisabled: disabled,
-  //   });
-  // }
-
-  startTime() {
-    const timer = 30000;
-    setTimeout(() => this.setState({
-      buttonDisabled: true,
-    }), timer);
-  }
-
-  updateCountdown() {
-    const { decreaseTimerCountdown } = this.props;
-    const timerDecrease = 1000;
-    this.setUpdateTimer = setInterval(() => decreaseTimerCountdown(), timerDecrease);
+  handleClickAnswer = () => {
+    this.setState({ buttonNext: true });
   }
 
   renderQuestionsAndAnswers = () => {
@@ -96,6 +71,7 @@ class Games extends React.Component {
 
       answers = shuffle(answers);
       let wrongIndex = 0;
+
       return (
         <>
           <div key={ index } data-testid="question-category">
@@ -117,7 +93,7 @@ class Games extends React.Component {
                   key={ answer.text }
                   type="button"
                   data-testid={ testId }
-                  disabled={ buttonDisabled }
+                  onClick={ this.handleClickAnswer }
                 >
                   {answer.text}
                 </button>
@@ -130,32 +106,25 @@ class Games extends React.Component {
   }
 
   render() {
-    return (
-      <div>
-        <Header />
-        <QuestionsAnswers />
+    const { buttonNext } = this.state;
 
+    return (
+      <>
         <div>
-          { this.renderQuestionsAndAnswers() }
+          {this.renderQuestionsAndAnswers()}
         </div>
-        <Timer />
-      </div>
+        <div>
+          { buttonNext === true && (<NextButton />) }
+        </div>
+      </>
     );
   }
 }
 
-Games.propTypes = {
+QuestionAnswers.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }),
 }.isRequired;
 
-const mapDispatchToProps = (dispatch) => ({
-  decreaseTimerCountdown: () => dispatch(decreaseCountdown()),
-});
-
-const mapStateToProps = (state) => ({
-  timer: state.timer.timer,
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Games);
+export default QuestionAnswers;
