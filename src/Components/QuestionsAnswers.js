@@ -108,11 +108,16 @@ class QuestionAnswers extends React.Component {
   render() {
     const { buttonNext } = this.state;
 
-    if (buttonNext === true) return (<NextButton />);
     return (
-      <div>
-        {this.renderQuestionsAndAnswers()}
-      </div>
+      <>
+        <div>
+          {this.renderQuestionsAndAnswers()}
+        </div>
+        <div>
+          { buttonNext === true && (<NextButton />) }
+        </div>
+      </>
+
     );
   }
 }
