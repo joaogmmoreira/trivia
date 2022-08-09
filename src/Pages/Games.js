@@ -6,6 +6,7 @@ import fetchQuestions from '../Services/fetchQuestions';
 import Timer from '../Components/Timer';
 import { decreaseCountdown } from '../Redux/actions';
 
+// https://stackoverflow.com/questions/64522159/shuffle-the-array-of-objects-without-picking-the-same-item-multiple-times
 function shuffle(array) {
   let currentIndex = array.length; let
     randomIndex;
@@ -49,41 +50,19 @@ class Games extends React.Component {
   saveQuestionsToState = async () => {
     const { history } = this.props;
     const questions = await fetchQuestions();
-    // console.log(questions.results);
 
     if (questions.response_code !== 0) {
-      // console.log('oi');
       localStorage.removeItem('token');
       history.push('/');
     }
 
     return this.setState({
       questions: questions.results,
-    }, () => { this.updateCountdown(); this.startTime(); });
-    // console.log(this.state);
-  }
-
-  // handleButtons(disabled) {
-  //   this.setState({
-  //     buttonDisabled: disabled,
-  //   });
-  // }
-
-  startTime() {
-    const timer = 30000;
-    setTimeout(() => this.setState({
-      buttonDisabled: true,
-    }), timer);
-  }
-
-  updateCountdown() {
-    const { decreaseTimerCountdown } = this.props;
-    const timerDecrease = 1000;
-    this.setUpdateTimer = setInterval(() => decreaseTimerCountdown(), timerDecrease);
+    });
   }
 
   renderQuestionsAndAnswers = () => {
-    const { questions, questionNumber, buttonDisabled } = this.state;
+    const { questions, questionNumber } = this.state;
 
     return questions.map((element, index) => {
       let answers = [];
