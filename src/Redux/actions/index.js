@@ -1,3 +1,5 @@
+import { ASSERTIONS, SCORE } from './actionTypes';
+
 export const GET_TOKEN = 'GET_TOKEN';
 export const GET_TOKEN_SUCCESS = 'GET_TOKEN_SUCCESS';
 export const GET_TOKEN_FAILED = 'GET_TOKEN_FAILED';
@@ -37,3 +39,18 @@ export const getTokenThunk = () => async (dispatch) => {
     dispatch(getTokenFailed(error));
   }
 };
+
+export const getAssertions = (assertions) => ({
+  type: ASSERTIONS,
+  assertions,
+});
+
+export const getScore = (score) => ({
+  type: SCORE,
+  score,
+});
+
+export const setPlayer = (payload) => ({
+  type: LOGIN,
+  payload,
+});
