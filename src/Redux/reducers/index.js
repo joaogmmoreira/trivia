@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 import token from './token';
 import login from './login';
-import nextQuestion from './nextQuestion';
+// import questions from './questions';
 
 const rootReducer = combineReducers({
   token,
   login,
-  nextQuestion,
+  // questions,
 });
 
 export default rootReducer;

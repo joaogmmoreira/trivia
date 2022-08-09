@@ -1,9 +1,7 @@
 export const GET_TOKEN = 'GET_TOKEN';
 export const GET_TOKEN_SUCCESS = 'GET_TOKEN_SUCCESS';
 export const GET_TOKEN_FAILED = 'GET_TOKEN_FAILED';
-export const NEXT_QUESTION = 'NEXT_QUESTION';
-// export const REQUEST_GRAVATAR_FAILED = 'REQUEST_GRAVATAR_FAILED';
-// export const REQUEST_GRAVATAR_SUCCESS = 'REQUEST_GRAVATAR_SUCCESS';
+// export const GET_QUESTIONS = 'GET_QUESTIONS';
 
 export const LOGIN = 'LOGIN';
 
@@ -30,10 +28,10 @@ export const getTokenFailed = (payload) => ({
   payload,
 });
 
-export const nextQuestion = (next) => ({
-  type: NEXT_QUESTION,
-  next,
-});
+// export const getQuestions = (payload) => ({
+//   type: GET_QUESTIONS,
+//   payload,
+// });
 
 export const getTokenThunk = () => async (dispatch) => {
   dispatch(getToken());
