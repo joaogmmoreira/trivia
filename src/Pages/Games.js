@@ -21,7 +21,7 @@ function shuffle(array) {
       array[randomIndex], array[currentIndex]];
   }
   return array;
-  }
+}
 
 class Games extends React.Component {
   constructor() {
@@ -83,7 +83,7 @@ class Games extends React.Component {
   }
 
   renderQuestionsAndAnswers = () => {
-    const { questions, questionNumber, buttonDisabled, shuffled } = this.state;
+    const { questions, questionNumber, buttonDisabled } = this.state;
 
     return questions.map((element, index) => {
       let answers = [];
@@ -95,16 +95,9 @@ class Games extends React.Component {
         text: incorrectAns,
         wrong: true,
       }));
-
-      if(shuffled){
+      
       answers = shuffle(answers);
-      this.setState({ 
-        shuffled: false,
-      });
-    }
-    
-    let wrongIndex = 0;
-
+      let wrongIndex = 0;
       return (
         <>
           <div key={ index } data-testid="question-category">
@@ -139,13 +132,14 @@ class Games extends React.Component {
   }
 
   render() {
+    const { shuffled } = this.state;
     return (
       <div>
         <Header />
         <div>
-          {this.renderQuestionsAndAnswers()}
-          <Timer />
+          { shuffled && this.renderQuestionsAndAnswers() }
         </div>
+          <Timer />
       </div>
     );
   }
