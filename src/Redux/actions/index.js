@@ -31,7 +31,8 @@ export const getTokenFailed = (payload) => ({
 export const nextQuestion = (next) => ({
   type: NEXT_QUESTION,
   next,
-=======
+});
+
 export const decreaseCountdown = () => ({
   type: DECREASE_COUNTDOWN,
 });

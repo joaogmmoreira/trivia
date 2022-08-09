@@ -109,7 +109,6 @@ class QuestionAnswers extends React.Component {
     const { buttonNext } = this.state;
 
     return (
-<<<<<<< HEAD
       <>
         <div>
           {this.renderQuestionsAndAnswers()}
@@ -118,15 +117,6 @@ class QuestionAnswers extends React.Component {
           { buttonNext === true && (<NextButton />) }
         </div>
       </>
-
-=======
-      <div>
-        <div>
-          {this.renderQuestionsAndAnswers()}
-        </div>
-        { buttonNext && <NextButton /> }
-      </div>
->>>>>>> d1dc2619d469dbcf22985d9fdd87198df8c7e403
     );
   }
 }

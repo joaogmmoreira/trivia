@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import Header from '../Components/Header';
 import QuestionsAnswers from '../Components/QuestionsAnswers';
 
-class Games extends React.Component {
-
 import fetchQuestions from '../Services/fetchQuestions';
 import Timer from '../Components/Timer';
 import { decreaseCountdown } from '../Redux/actions';
@@ -119,7 +117,7 @@ class Games extends React.Component {
       <div>
         <Header />
         <QuestionsAnswers />
-        
+
         <div>
           {this.renderQuestionsAndAnswers()}
           <Timer />
@@ -129,8 +127,6 @@ class Games extends React.Component {
     );
   }
 }
-
-export default Games;
 
 Games.propTypes = {
   history: PropTypes.shape({
