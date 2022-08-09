@@ -1,9 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Gear } from 'phosphor-react';
-import { loginAction, getTokenThunk } from '../Redux/actions';
+import {
+  // loginAction,
+  getTokenThunk,
+  setPlayer,
+} from '../Redux/actions';
 
 class Login extends React.Component {
   constructor() {
@@ -46,10 +50,11 @@ class Login extends React.Component {
   }
 
   handleLogin = () => {
-    const { token, dispatchLogin } = this.props;
+    const { token, dispatchPlayer } = this.props;
+    const { name, email } = this.state;
 
     localStorage.setItem('token', token);
-    dispatchLogin({ ...this.state });
+    dispatchPlayer({ name, email });
   }
 
   fetchToken() {
@@ -112,8 +117,8 @@ class Login extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatchLogin: (value) => dispatch(loginAction(value)),
   getToken: () => dispatch(getTokenThunk()),
+  dispatchPlayer: (value) => dispatch(setPlayer(value)),
 });
 
 const mapStateToProps = (state) => ({
@@ -121,12 +126,12 @@ const mapStateToProps = (state) => ({
 });
 
 Login.propTypes = {
-  getToken: propTypes.func.isRequired,
-  token: propTypes.string.isRequired,
-  history: propTypes.shape({
-    push: propTypes.func,
-  }).isRequired,
-  dispatchLogin: propTypes.func.isRequired,
-};
+  dispatchEmailPlayer: PropTypes.func,
+  dispatchLogin: PropTypes.func,
+  dispatchNamePlayer: PropTypes.func,
+  getToken: PropTypes.func,
+  history: PropTypes.func,
+  token: PropTypes.string,
+}.isRequired;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
