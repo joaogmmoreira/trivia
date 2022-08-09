@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import fetchQuestions from '../Services/fetchQuestions';
-// import NextButton from './NextButton';
 
 // https://stackoverflow.com/questions/64522159/shuffle-the-array-of-objects-without-picking-the-same-item-multiple-times
 function shuffle(array) {
@@ -55,6 +54,22 @@ class QuestionAnswers extends React.Component {
     this.setState({ buttonNext: true });
   }
 
+  handleOnClickNext = () => {
+    const { questionNumber, questions } = this.state;
+    const { history } = this.props;
+
+    if (questionNumber === questions.length - 1) {
+      // console.log('fim');
+      // console.log(history);
+      history.push('/feedback');
+    }
+    // console.log('clicou');
+    // console.log(questionNumber);
+    this.setState((prevState) => ({ questionNumber: prevState.questionNumber + 1 }));
+    // resetar timer
+    // atualizar display contador de pontos
+  }
+
   renderQuestionsAndAnswers = () => {
     const { questions, questionNumber } = this.state;
 
@@ -105,15 +120,6 @@ class QuestionAnswers extends React.Component {
     })[questionNumber];
   }
 
-  handleOnClickNext() {
-    // const { questionNumber } = this.state;
-    // if (questionNumber === 4){
-    //   redirect
-    // }
-    console.log('clicou');
-    this.setState((prevState) => ({ questionNumber: prevState.questionNumber + 1 }));
-  }
-
   render() {
     const { buttonNext } = this.state;
 
@@ -126,7 +132,6 @@ class QuestionAnswers extends React.Component {
           <button
             type="button"
             data-testid="btn-next"
-            // onClick={ () => console.log('componente <NextButton />') }
             onClick={ this.handleOnClickNext }
           >
             Next
