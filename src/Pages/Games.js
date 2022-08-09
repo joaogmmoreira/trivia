@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
 import Header from '../Components/Header';
 import fetchQuestions from '../Services/fetchQuestions';
+import Timer from '../Components/Timer';
+import { decreaseCountdown } from '../Redux/actions';
 
 // https://stackoverflow.com/questions/64522159/shuffle-the-array-of-objects-without-picking-the-same-item-multiple-times
 function shuffle(array) {
@@ -29,11 +32,19 @@ class Games extends React.Component {
     this.state = {
       questions: [],
       questionNumber: 0,
+      buttonDisabled: false,
     };
   }
 
   componentDidMount() {
     this.saveQuestionsToState();
+  }
+
+  componentDidUpdate() {
+    const { timer } = this.props;
+    if (timer <= 0) {
+      clearInterval(this.setUpdateTimer);
+    }
   }
 
   saveQuestionsToState = async () => {
@@ -84,7 +95,12 @@ class Games extends React.Component {
                 wrongIndex += 1;
               }
               return (
-                <button key={ answer.text } type="button" data-testid={ testId }>
+                <button
+                  key={ answer.text }
+                  type="button"
+                  data-testid={ testId }
+                  disabled={ buttonDisabled }
+                >
                   {answer.text}
                 </button>
               );
@@ -101,6 +117,7 @@ class Games extends React.Component {
         <Header />
         <div>
           {this.renderQuestionsAndAnswers()}
+          <Timer />
         </div>
       </div>
     );
@@ -113,4 +130,12 @@ Games.propTypes = {
   }),
 }.isRequired;
 
-export default Games;
+const mapDispatchToProps = (dispatch) => ({
+  decreaseTimerCountdown: () => dispatch(decreaseCountdown()),
+});
+
+const mapStateToProps = (state) => ({
+  timer: state.timer.timer,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Games);
