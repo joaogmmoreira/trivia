@@ -1,5 +1,4 @@
 import { ASSERTIONS, LOGIN, SCORE } from '../actions/actionTypes';
-// import login from './login';
 
 // Reducer responsável por tratar todas as informações relacionadas ao jogador.
 

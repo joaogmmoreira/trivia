@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Gear } from 'phosphor-react';
 import {
-  loginAction,
+  // loginAction,
   getTokenThunk,
   setPlayer,
 } from '../Redux/actions';
@@ -50,11 +50,10 @@ class Login extends React.Component {
   }
 
   handleLogin = () => {
-    const { token, dispatchLogin, dispatchPlayer } = this.props;
+    const { token, dispatchPlayer } = this.props;
     const { name, email } = this.state;
 
     localStorage.setItem('token', token);
-    dispatchLogin({ ...this.state });
     dispatchPlayer({ name, email });
   }
 
@@ -118,9 +117,7 @@ class Login extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatchLogin: (value) => dispatch(loginAction(value)),
   getToken: () => dispatch(getTokenThunk()),
-
   dispatchPlayer: (value) => dispatch(setPlayer(value)),
 });
 

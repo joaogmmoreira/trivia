@@ -6,11 +6,6 @@ export const GET_TOKEN_FAILED = 'GET_TOKEN_FAILED';
 
 export const LOGIN = 'LOGIN';
 
-export const loginAction = (payload) => ({
-  type: LOGIN,
-  payload,
-});
-
 export const requestCurrencies = () => ({
   type: 'REQUEST_CURRENCIES',
 });
