@@ -6,6 +6,7 @@ import fetchQuestions from '../Services/fetchQuestions';
 import Timer from '../Components/Timer';
 import { decreaseCountdown } from '../Redux/actions';
 
+//segunda versão
 function shuffle(array) {
   let currentIndex = array.length; let
     randomIndex;
