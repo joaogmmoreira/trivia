@@ -1,7 +1,7 @@
 export const GET_TOKEN = 'GET_TOKEN';
 export const GET_TOKEN_SUCCESS = 'GET_TOKEN_SUCCESS';
 export const GET_TOKEN_FAILED = 'GET_TOKEN_FAILED';
-
+export const DECREASE_COUNTDOWN = 'DECREASE_COUNTDOWN';
 export const LOGIN = 'LOGIN';
 
 export const loginAction = (payload) => ({
@@ -25,6 +25,10 @@ export const getTokenSuccess = (payload) => ({
 export const getTokenFailed = (payload) => ({
   type: GET_TOKEN_FAILED,
   payload,
+});
+
+export const decreaseCountdown = () => ({
+  type: DECREASE_COUNTDOWN,
 });
 
 export const getTokenThunk = () => async (dispatch) => {

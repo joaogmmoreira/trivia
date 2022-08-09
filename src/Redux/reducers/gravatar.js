@@ -1,26 +1,26 @@
-import { REQUEST_GRAVATAR_FAILED, REQUEST_GRAVATAR_SUCCESS } from '../actions';
+// import { REQUEST_GRAVATAR_FAILED, REQUEST_GRAVATAR_SUCCESS } from '../actions';
 
-const INITIAL_STATE = {
+// const INITIAL_STATE = {
 
-};
+// };
 
-const login = (state = INITIAL_STATE, action) => {
-  switch (action.type) {
-  case REQUEST_GRAVATAR_SUCCESS:
-    return {
-      ...state,
-      image: action.payload,
-    };
+// const login = (state = INITIAL_STATE, action) => {
+//   switch (action.type) {
+//   case REQUEST_GRAVATAR_SUCCESS:
+//     return {
+//       ...state,
+//       image: action.payload,
+//     };
 
-  case REQUEST_GRAVATAR_FAILED:
-    return {
-      ...state,
-      error: action.error,
-    };
+//   case REQUEST_GRAVATAR_FAILED:
+//     return {
+//       ...state,
+//       error: action.error,
+//     };
 
-  default:
-    return state;
-  }
-};
+//   default:
+//     return state;
+//   }
+// };
 
-export default login;
+// export default login;
