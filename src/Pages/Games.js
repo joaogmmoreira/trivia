@@ -12,7 +12,6 @@ function shuffle(array) {
   let currentIndex = array.length; let
     randomIndex;
 
-  // While there remain elements to shuffle.
   while (currentIndex !== 0) {
     // Pick a remaining element.
     randomIndex = Math.floor(Math.random() * currentIndex);
@@ -22,7 +21,6 @@ function shuffle(array) {
     [array[currentIndex], array[randomIndex]] = [
       array[randomIndex], array[currentIndex]];
   }
-
   return array;
 }
 
@@ -78,7 +76,6 @@ class Games extends React.Component {
 
       answers = shuffle(answers);
       let wrongIndex = 0;
-
       return (
         <>
           <div key={ index } data-testid="question-category">
@@ -119,10 +116,8 @@ class Games extends React.Component {
         <QuestionsAnswers />
 
         <div>
-          {this.renderQuestionsAndAnswers()}
-          <Timer />
+          { this.renderQuestionsAndAnswers() }
         </div>
-
       </div>
     );
   }
