@@ -57,7 +57,27 @@ class Games extends React.Component {
 
     return this.setState({
       questions: questions.results,
-    });
+    }, () => { this.updateCountdown(); this.startTime(); });
+    // console.log(this.state);
+  }
+
+  // handleButtons(disabled) {
+  //   this.setState({
+  //     buttonDisabled: disabled,
+  //   });
+  // }
+
+  startTime() {
+    const timer = 30000;
+    setTimeout(() => this.setState({
+      buttonDisabled: true,
+    }), timer);
+  }
+
+  updateCountdown() {
+    const { decreaseTimerCountdown } = this.props;
+    const timerDecrease = 1000;
+    this.setUpdateTimer = setInterval(() => decreaseTimerCountdown(), timerDecrease);
   }
 
   renderQuestionsAndAnswers = () => {
@@ -118,6 +138,7 @@ class Games extends React.Component {
         <div>
           { this.renderQuestionsAndAnswers() }
         </div>
+        <Timer />
       </div>
     );
   }
