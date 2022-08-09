@@ -2,10 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 // import { Gear } from 'phosphor-react';
-import { loginAction, getTokenThunk } from '../Redux/actions';
-import { Gear } from 'phosphor-react';
 import {
   // loginAction,
   getTokenThunk,
