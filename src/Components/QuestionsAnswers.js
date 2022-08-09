@@ -29,6 +29,7 @@ class QuestionAnswers extends React.Component {
     this.state = {
       questions: [],
       questionNumber: 0,
+      buttonNext: false,
     };
   }
 
@@ -50,8 +51,8 @@ class QuestionAnswers extends React.Component {
     });
   }
 
-  handleClickAnswer() {
-    return <NextButton />;
+  handleClickAnswer = () => {
+    this.setState({ buttonNext: true });
   }
 
   renderQuestionsAndAnswers = () => {
@@ -92,7 +93,7 @@ class QuestionAnswers extends React.Component {
                   key={ answer.text }
                   type="button"
                   data-testid={ testId }
-                  onClick={ handleClickAnswer() }
+                  onClick={ this.handleClickAnswer }
                 >
                   {answer.text}
                 </button>
@@ -105,6 +106,9 @@ class QuestionAnswers extends React.Component {
   }
 
   render() {
+    const { buttonNext } = this.state;
+
+    if (buttonNext === true) return (<NextButton />);
     return (
       <div>
         {this.renderQuestionsAndAnswers()}
