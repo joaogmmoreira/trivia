@@ -31,7 +31,6 @@ class Games extends React.Component {
       questions: [],
       questionNumber: 0,
       buttonDisabled: false,
-      shuffled: true,
     };
   }
 
@@ -95,7 +94,7 @@ class Games extends React.Component {
         text: incorrectAns,
         wrong: true,
       }));
-      
+
       answers = shuffle(answers);
       let wrongIndex = 0;
       return (
@@ -132,14 +131,13 @@ class Games extends React.Component {
   }
 
   render() {
-    const { shuffled } = this.state;
     return (
       <div>
         <Header />
         <div>
-          { shuffled && this.renderQuestionsAndAnswers() }
+          { this.renderQuestionsAndAnswers() }
         </div>
-          <Timer />
+        <Timer />
       </div>
     );
   }
