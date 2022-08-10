@@ -2,12 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import { Gear } from 'phosphor-react';
-import {
-  // loginAction,
-  getTokenThunk,
-  setPlayer,
-} from '../Redux/actions';
+import { Gear } from 'phosphor-react';
+import { getTokenThunk, setPlayer } from '../Redux/actions';
 
 class Login extends React.Component {
   constructor() {
@@ -74,7 +70,7 @@ class Login extends React.Component {
               type="button"
               data-testid="btn-settings"
             >
-              { /* <Gear size={ 20 } /> */}
+              <Gear size={ 20 } />
             </button>
           </Link>
         </div>
@@ -135,3 +131,4 @@ Login.propTypes = {
 }.isRequired;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
+
