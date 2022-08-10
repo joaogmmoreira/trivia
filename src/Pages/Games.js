@@ -1,5 +1,5 @@
 import React from 'react';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import Header from '../Components/Header';
 import QuestionsAnswers from '../Components/QuestionsAnswers';
 class Games extends React.Component {
@@ -15,9 +15,9 @@ class Games extends React.Component {
 }
 
 Games.propTypes = {
-  history: propTypes.shape({
-    push: propTypes.func,
-  }).isRequired,
-};
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+}.isRequired;
 
 export default Games;

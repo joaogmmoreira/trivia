@@ -19,10 +19,10 @@ function player(state = INITIAL_STATE, action) {
     };
 
   case ASSERTIONS:
-    return { ...state, assertions: action.assertions };
+    return { ...state, assertions: action.payload };
 
   case SCORE:
-    return { ...state, expenses: action.score };
+    return { ...state, score: action.payload };
 
   default:
     return state;

@@ -1,3 +1,5 @@
+// import { ASSERTIONS, SCORE, GET_TOKEN,
+//   GET_TOKEN_SUCCESS, GET_TOKEN_FAILED, DECREASE_COUNTDOWN } from './actionTypes';
 export const ASSERTIONS = 'ASSERTIONS';
 export const SCORE = 'SCORE';
 export const LOGIN = 'LOGIN';
@@ -40,20 +42,21 @@ export const getTokenThunk = () => async (dispatch) => {
   }
 };
 
-export const getAssertions = (assertions) => ({
+export const setAssertions = (payload) => ({
   type: ASSERTIONS,
-  assertions,
+  payload,
 });
 
-export const getScore = (score) => ({
+export const setScore = (payload) => ({
   type: SCORE,
-  score,
+  payload,
 });
 
 export const setPlayer = (payload) => ({
   type: LOGIN,
   payload,
 });
+<<<<<<< HEAD
 
 export const resetCountdown = () => ({
   type: RESET_COUNTDOWN,
