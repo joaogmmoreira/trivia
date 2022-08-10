@@ -6,22 +6,15 @@ import Timer from './Timer';
 import { decreaseCountdown, setAssertions, setScore } from '../Redux/actions';
 import '../Pages/Games.css';
 
-// https://stackoverflow.com/questions/64522159/shuffle-the-array-of-objects-without-picking-the-same-item-multiple-times
 function shuffle(array) {
   let currentIndex = array.length; let
     randomIndex;
-
-  // While there remain elements to shuffle.
   while (currentIndex !== 0) {
-    // Pick a remaining element.
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
-
-    // And swap it with the current element.
     [array[currentIndex], array[randomIndex]] = [
       array[randomIndex], array[currentIndex]];
   }
-
   return array;
 }
 
@@ -124,7 +117,10 @@ class QuestionAnswers extends React.Component {
     }
     console.log('clicou');
     console.log(questionNumber);
-    this.setState((prevState) => ({ questionNumber: prevState.questionNumber + 1 }));
+    this.setState((prevState) => ({
+      questionNumber: prevState.questionNumber + 1,
+      buttonNext: false,
+    }));
     // this.updateCountdown(); // reseta timer
     // atualizar display contador de pontos
   }
