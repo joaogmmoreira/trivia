@@ -179,6 +179,7 @@ class Games extends React.Component {
   }
 
   render() {
+    // const { history } = this.props;
     return (
       <div>
         <Header />
