@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Header from '../Components/Header';
 import QuestionsAnswers from '../Components/QuestionsAnswers';
-
 import fetchQuestions from '../Services/fetchQuestions';
 import Timer from '../Components/Timer';
 import { decreaseCountdown } from '../Redux/actions';
@@ -81,7 +81,7 @@ class Games extends React.Component {
   }
 
   renderQuestionsAndAnswers = () => {
-    const { questions, questionNumber } = this.state;
+    const { questions, questionNumber, buttonDisabled } = this.state;
 
     return questions.map((element, index) => {
       let answers = [];
