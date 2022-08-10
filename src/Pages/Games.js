@@ -5,7 +5,7 @@ import Header from '../Components/Header';
 // import QuestionsAnswers from '../Components/QuestionsAnswers';
 import fetchQuestions from '../Services/fetchQuestions';
 import Timer from '../Components/Timer';
-import { decreaseCountdown } from '../Redux/actions';
+import { decreaseCountdown, setAssertions, setScore } from '../Redux/actions';
 
 // https://stackoverflow.com/questions/64522159/shuffle-the-array-of-objects-without-picking-the-same-item-multiple-times
 function shuffle(array) {
@@ -58,20 +58,41 @@ class Games extends React.Component {
     return this.setState({
       questions: questions.results,
     }, () => { this.updateCountdown(); this.startTime(); });
-    // console.log(this.state);
   }
 
-  // handleButtons(disabled) {
-  //   this.setState({
-  //     buttonDisabled: disabled,
-  //   });
-  // }
+  pointsCalculator = (timer, difficulty) => {
+    const fixedPoint = 10;
+    const easy = 1;
+    const medium = 2;
+    const hard = 3;
+    let points;
 
-  startTime() {
-    const timer = 30000;
-    setTimeout(() => this.setState({
-      buttonDisabled: true,
-    }), timer);
+    if (difficulty === 'easy') {
+      points = fixedPoint + (timer * easy);
+    }
+    if (difficulty === 'medium') {
+      points = fixedPoint + (timer * medium);
+    }
+    if (difficulty === 'hard') {
+      points = fixedPoint + (timer * hard);
+    }
+
+    return points;
+  }
+
+  handleClick = ({ target }) => {
+    this.counthePoints(target);
+  }
+
+  counthePoints = (target) => {
+    const { value: clickedAnswerDifficulty } = target;
+    const dataTestId = target.getAttribute('data-testid');
+    const { timer, dispatchScore, score, dispatchAssertions, assertions } = this.props;
+    if (dataTestId === 'correct-answer') {
+      const points = this.pointsCalculator(timer, clickedAnswerDifficulty);
+      dispatchScore(score + points);
+      dispatchAssertions(assertions + 1);
+    }
   }
 
   updateCountdown() {
@@ -82,7 +103,6 @@ class Games extends React.Component {
 
   renderQuestionsAndAnswers = () => {
     const { questions, questionNumber, buttonDisabled } = this.state;
-
     return questions.map((element, index) => {
       let answers = [];
       answers.push({
@@ -118,6 +138,8 @@ class Games extends React.Component {
                   type="button"
                   data-testid={ testId }
                   disabled={ buttonDisabled }
+                  value={ element.difficulty }
+                  onClick={ this.handleClick }
                 >
                   {answer.text}
                 </button>
@@ -127,6 +149,13 @@ class Games extends React.Component {
         </>
       );
     })[questionNumber];
+  }
+
+  startTime() {
+    const timer = 30000;
+    setTimeout(() => this.setState({
+      buttonDisabled: true,
+    }), timer);
   }
 
   render() {
@@ -151,10 +180,14 @@ Games.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
   decreaseTimerCountdown: () => dispatch(decreaseCountdown()),
+  dispatchScore: (points) => dispatch(setScore(points)),
+  dispatchAssertions: (assertion) => dispatch(setAssertions(assertion)),
 });
 
 const mapStateToProps = (state) => ({
   timer: state.timer.timer,
+  score: state.player.score,
+  assertions: state.player.assertions,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Games);
