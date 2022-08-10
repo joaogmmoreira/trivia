@@ -131,3 +131,4 @@ Login.propTypes = {
 }.isRequired;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
+

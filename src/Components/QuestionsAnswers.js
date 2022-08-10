@@ -150,10 +150,11 @@ class QuestionAnswers extends React.Component {
     const { buttonNext } = this.state;
 
     return (
-      <div>
+      <>
         <div>
           { this.renderQuestionsAndAnswers()}
         </div>
+        
         <Timer />
         { buttonNext && (
           <button
@@ -165,6 +166,12 @@ class QuestionAnswers extends React.Component {
           </button>
         )}
       </div>
+
+        <div>
+          { buttonNext === true && (<NextButton />) }
+        </div>
+      </>
+
     );
   }
 }
