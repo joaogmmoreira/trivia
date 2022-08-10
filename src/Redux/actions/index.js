@@ -5,6 +5,7 @@ export const GET_TOKEN = 'GET_TOKEN';
 export const GET_TOKEN_SUCCESS = 'GET_TOKEN_SUCCESS';
 export const GET_TOKEN_FAILED = 'GET_TOKEN_FAILED';
 export const DECREASE_COUNTDOWN = 'DECREASE_COUNTDOWN';
+export const RESET_COUNTDOWN = 'RESET_COUNTDOWN';
 
 export const requestCurrencies = () => ({
   type: 'REQUEST_CURRENCIES',
@@ -54,3 +55,6 @@ export const setPlayer = (payload) => ({
   payload,
 });
 
+export const resetCountdown = () => ({
+  type: RESET_COUNTDOWN,
+});

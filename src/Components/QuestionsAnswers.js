@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import fetchQuestions from '../Services/fetchQuestions';
 import Timer from './Timer';
-import { decreaseCountdown } from '../Redux/actions';
+import { decreaseCountdown, resetCountdown } from '../Redux/actions';
 
 // https://stackoverflow.com/questions/64522159/shuffle-the-array-of-objects-without-picking-the-same-item-multiple-times
 function shuffle(array) {
@@ -33,6 +33,7 @@ class QuestionAnswers extends React.Component {
       questionNumber: 0,
       buttonNext: false,
       buttonDisabled: false,
+      timerCountDown: 0,
     };
   }
 
@@ -45,6 +46,7 @@ class QuestionAnswers extends React.Component {
     if (timer <= 0) {
       clearInterval(this.setUpdateTimer);
     }
+    console.log(timer);
   }
 
   saveQuestionsToState = async () => {
@@ -61,13 +63,21 @@ class QuestionAnswers extends React.Component {
     }, () => { this.updateCountdown(); this.startTime(); });
   }
 
+  handleButtons(disabled) {
+    clearInterval(this.setUpdateTimer);
+    this.setState({
+      buttonDisabled: disabled,
+    });
+  }
+
   handleClickAnswer = () => {
     this.setState({ buttonNext: true });
   }
 
   handleOnClickNext = () => {
+    clearInterval(this.setTimer);
     const { questionNumber, questions } = this.state;
-    const { history } = this.props;
+    const { history, resetTimerCountdown } = this.props;
 
     if (questionNumber === questions.length - 1) {
       console.log('fim');
@@ -76,16 +86,20 @@ class QuestionAnswers extends React.Component {
     }
     console.log('clicou');
     console.log(questionNumber);
-    this.setState((prevState) => ({ questionNumber: prevState.questionNumber + 1 }));
+    this.handleButtons(false);
+    resetTimerCountdown();
+    this.updateCountdown();
+    this.startTime();
+    this.setState((prevState) => ({ questionNumber: prevState.questionNumber + 1,
+      timerCountDown: 30,
+     }));
     // this.updateCountdown(); // reseta timer
     // atualizar display contador de pontos
   }
 
   startTime() {
     const timer = 30000;
-    setTimeout(() => this.setState({
-      buttonDisabled: true,
-    }), timer);
+    this.setTimer = setTimeout(() => this.handleButtons(true), timer);
   }
 
   updateCountdown() {
@@ -95,7 +109,7 @@ class QuestionAnswers extends React.Component {
   }
 
   renderQuestionsAndAnswers = () => {
-    const { questions, questionNumber, buttonDisabled } = this.state;
+    const { questions, questionNumber, buttonDisabled, timerCountDown } = this.state;
 
     return questions.map((element, index) => {
       let answers = [];
@@ -135,6 +149,8 @@ class QuestionAnswers extends React.Component {
                   data-testid={ testId }
                   disabled={ buttonDisabled }
                   onClick={ this.handleClickAnswer }
+                  handleButtons={ this.handleButtons }
+                  timer={ timerCountDown }
                 >
                   {answer.text}
                 </button>
@@ -165,13 +181,7 @@ class QuestionAnswers extends React.Component {
             Next
           </button>
         )}
-      </div>
-
-        <div>
-          { buttonNext === true && (<NextButton />) }
-        </div>
-      </>
-
+    </>
     );
   }
 }
@@ -184,6 +194,7 @@ QuestionAnswers.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
   decreaseTimerCountdown: () => dispatch(decreaseCountdown()),
+  resetTimerCountdown: () => dispatch(resetCountdown()),
 });
 
 const mapStateToProps = (state) => ({
