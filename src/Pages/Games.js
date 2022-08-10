@@ -6,6 +6,7 @@ import Header from '../Components/Header';
 import fetchQuestions from '../Services/fetchQuestions';
 import Timer from '../Components/Timer';
 import { decreaseCountdown, setAssertions, setScore } from '../Redux/actions';
+import './Games.css';
 
 // https://stackoverflow.com/questions/64522159/shuffle-the-array-of-objects-without-picking-the-same-item-multiple-times
 function shuffle(array) {
@@ -60,6 +61,20 @@ class Games extends React.Component {
     }, () => { this.updateCountdown(); this.startTime(); });
   }
 
+  colorizeAnswer = (target) => {
+    const parentElement = target.parentNode;
+    const childrenElements = parentElement.children;
+    for (let i = 0; i < childrenElements.length; i += 1) {
+      const elementClass = (childrenElements[i].classList);
+      if (elementClass.value === 'red') {
+        elementClass.add('redd');
+      }
+      if (elementClass.value === 'green') {
+        elementClass.add('greenn');
+      }
+    }
+  }
+
   pointsCalculator = (timer, difficulty) => {
     const fixedPoint = 10;
     const easy = 1;
@@ -82,6 +97,7 @@ class Games extends React.Component {
 
   handleClick = ({ target }) => {
     this.counthePoints(target);
+    this.colorizeAnswer(target);
   }
 
   counthePoints = (target) => {
@@ -132,9 +148,13 @@ class Games extends React.Component {
               if (answer.wrong) {
                 wrongIndex += 1;
               }
+              const answerClass = answer.wrong
+                ? 'red'
+                : 'green';
               return (
                 <button
                   key={ answer.text }
+                  className={ answerClass }
                   type="button"
                   data-testid={ testId }
                   disabled={ buttonDisabled }
