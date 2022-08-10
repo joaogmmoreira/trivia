@@ -7,10 +7,10 @@ class Feedback extends React.Component {
     const { assertions } = this.props;
     const three = 3;
     if (assertions < three) {
-      return <h2>Could be better...</h2>;
+      return <h2 data-testid="feedback-text">Could be better...</h2>;
     }
     if (assertions >= three) {
-      return <h2>Well Done!</h2>;
+      return <h2 data-testid="feedback-text">Well Done!</h2>;
     }
   }
 
