@@ -1,3 +1,5 @@
+// import { ASSERTIONS, SCORE, GET_TOKEN,
+//   GET_TOKEN_SUCCESS, GET_TOKEN_FAILED, DECREASE_COUNTDOWN } from './actionTypes';
 export const ASSERTIONS = 'ASSERTIONS';
 export const SCORE = 'SCORE';
 export const LOGIN = 'LOGIN';

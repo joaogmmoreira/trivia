@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import fetchQuestions from '../Services/fetchQuestions';
 import Timer from './Timer';
-import { decreaseCountdown } from '../Redux/actions';
+import { decreaseCountdown, setAssertions, setScore } from '../Redux/actions';
+import '../Pages/Games.css';
 
 // https://stackoverflow.com/questions/64522159/shuffle-the-array-of-objects-without-picking-the-same-item-multiple-times
 function shuffle(array) {
@@ -61,8 +62,55 @@ class QuestionAnswers extends React.Component {
     }, () => { this.updateCountdown(); this.startTime(); });
   }
 
-  handleClickAnswer = () => {
+  colorizeAnswer = (target) => {
+    const parentElement = target.parentNode;
+    const childrenElements = parentElement.children;
+    for (let i = 0; i < childrenElements.length; i += 1) {
+      const elementClass = (childrenElements[i].classList);
+      if (elementClass.value === 'red') {
+        elementClass.add('redd');
+      }
+      if (elementClass.value === 'green') {
+        elementClass.add('greenn');
+      }
+    }
+  }
+
+  pointsCalculator = (timer, difficulty) => {
+    const fixedPoint = 10;
+    const easy = 1;
+    const medium = 2;
+    const hard = 3;
+    let points;
+
+    if (difficulty === 'easy') {
+      points = fixedPoint + (timer * easy);
+    }
+    if (difficulty === 'medium') {
+      points = fixedPoint + (timer * medium);
+    }
+    if (difficulty === 'hard') {
+      points = fixedPoint + (timer * hard);
+    }
+
+    return points;
+  }
+
+  handleClickAnswer = ({ target }) => {
+    this.counthePoints(target);
+    this.colorizeAnswer(target);
     this.setState({ buttonNext: true });
+  }
+
+  counthePoints = (target) => {
+    const { value: clickedAnswerDifficulty } = target;
+    const dataTestId = target.getAttribute('data-testid');
+    const { timer, dispatchScore, score, dispatchAssertions, assertions } = this.props;
+    if (dataTestId === 'correct-answer') {
+      const points = this.pointsCalculator(timer, clickedAnswerDifficulty);
+      dispatchScore(score + points);
+      dispatchAssertions(assertions + 1);
+    }
   }
 
   handleOnClickNext = () => {
@@ -128,13 +176,18 @@ class QuestionAnswers extends React.Component {
               if (answer.wrong) {
                 wrongIndex += 1;
               }
+              const answerClass = answer.wrong
+                ? 'red'
+                : 'green';
               return (
                 <button
                   key={ answer.text }
+                  className={ answerClass }
                   type="button"
                   data-testid={ testId }
                   disabled={ buttonDisabled }
                   onClick={ this.handleClickAnswer }
+                  value={ element.difficulty }
                 >
                   {answer.text}
                 </button>
@@ -150,27 +203,26 @@ class QuestionAnswers extends React.Component {
     const { buttonNext } = this.state;
 
     return (
-      <>
+      <div>
+
         <div>
           { this.renderQuestionsAndAnswers()}
         </div>
-        
-        <Timer />
-        { buttonNext && (
-          <button
-            type="button"
-            data-testid="btn-next"
-            onClick={ this.handleOnClickNext }
-          >
-            Next
-          </button>
-        )}
-      </div>
 
         <div>
-          { buttonNext === true && (<NextButton />) }
+          <Timer />
+          { buttonNext && (
+            <button
+              type="button"
+              data-testid="btn-next"
+              onClick={ this.handleOnClickNext }
+            >
+              Next
+            </button>
+          )}
         </div>
-      </>
+
+      </div>
 
     );
   }
@@ -184,10 +236,14 @@ QuestionAnswers.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
   decreaseTimerCountdown: () => dispatch(decreaseCountdown()),
+  dispatchScore: (points) => dispatch(setScore(points)),
+  dispatchAssertions: (assertion) => dispatch(setAssertions(assertion)),
 });
 
 const mapStateToProps = (state) => ({
   timer: state.timer.timer,
+  score: state.player.score,
+  assertions: state.player.assertions,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuestionAnswers);

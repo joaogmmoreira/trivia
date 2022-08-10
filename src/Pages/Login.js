@@ -3,11 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Gear } from 'phosphor-react';
-import {
-  // loginAction,
-  getTokenThunk,
-  setPlayer,
-} from '../Redux/actions';
+import { getTokenThunk, setPlayer } from '../Redux/actions';
 
 class Login extends React.Component {
   constructor() {
@@ -55,6 +51,11 @@ class Login extends React.Component {
 
     localStorage.setItem('token', token);
     dispatchPlayer({ name, email });
+  }
+
+  fetchToken() {
+    const { getToken } = this.props;
+    getToken();
   }
 
   render() {
