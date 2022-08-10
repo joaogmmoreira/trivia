@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import fetchQuestions from '../Services/fetchQuestions';
 import Timer from './Timer';
-import { decreaseCountdown, setAssertions, setScore } from '../Redux/actions';
+import { decreaseCountdown, setAssertions, setScore, resetCountdown } from '../Redux/actions';
 import '../Pages/Games.css';
 
 // https://stackoverflow.com/questions/64522159/shuffle-the-array-of-objects-without-picking-the-same-item-multiple-times

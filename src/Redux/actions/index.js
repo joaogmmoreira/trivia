@@ -56,7 +56,6 @@ export const setPlayer = (payload) => ({
   type: LOGIN,
   payload,
 });
-<<<<<<< HEAD
 
 export const resetCountdown = () => ({
   type: RESET_COUNTDOWN,
