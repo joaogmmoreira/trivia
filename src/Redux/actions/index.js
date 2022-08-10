@@ -39,18 +39,17 @@ export const getTokenThunk = () => async (dispatch) => {
   }
 };
 
-export const getAssertions = (assertions) => ({
+export const setAssertions = (payload) => ({
   type: ASSERTIONS,
-  assertions,
+  payload,
 });
 
-export const getScore = (score) => ({
+export const setScore = (payload) => ({
   type: SCORE,
-  score,
+  payload,
 });
 
 export const setPlayer = (payload) => ({
   type: LOGIN,
   payload,
 });
-
