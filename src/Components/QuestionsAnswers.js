@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import fetchQuestions from '../Services/fetchQuestions';
 import Timer from './Timer';
-import { decreaseCountdown, setAssertions, setScore } from '../Redux/actions';
+import { decreaseCountdown,
+  resetCountdown,
+  setAssertions, setScore } from '../Redux/actions';
 import '../Pages/Games.css';
 
 // https://stackoverflow.com/questions/64522159/shuffle-the-array-of-objects-without-picking-the-same-item-multiple-times
@@ -57,13 +59,6 @@ class QuestionAnswers extends React.Component {
     }, () => { this.updateCountdown(); this.startTime(); });
   }
 
-  handleButtons(disabled) {
-    clearInterval(this.setUpdateTimer);
-    this.setState({
-      buttonDisabled: disabled,
-    });
-  }
-
   colorizeAnswer = (target) => {
     const parentElement = target.parentNode;
     const childrenElements = parentElement.children;
@@ -84,7 +79,6 @@ class QuestionAnswers extends React.Component {
     const medium = 2;
     const hard = 3;
     let points;
-
     if (difficulty === 'easy') {
       points = fixedPoint + (timer * easy);
     }
@@ -94,7 +88,6 @@ class QuestionAnswers extends React.Component {
     if (difficulty === 'hard') {
       points = fixedPoint + (timer * hard);
     }
-
     return points;
   }
 
@@ -119,23 +112,23 @@ class QuestionAnswers extends React.Component {
     clearInterval(this.setTimer);
     const { questionNumber, questions } = this.state;
     const { history, resetTimerCountdown } = this.props;
-
     if (questionNumber === questions.length - 1) {
-      console.log('fim');
-      console.log(history);
       history.push('/feedback');
     }
-    console.log('clicou');
-    console.log(questionNumber);
     this.handleButtons(false);
     resetTimerCountdown();
     this.updateCountdown();
     this.startTime();
     this.setState((prevState) => ({ questionNumber: prevState.questionNumber + 1,
       timerCountDown: 30,
-     }));
-    // this.updateCountdown(); // reseta timer
-    // atualizar display contador de pontos
+    }));
+  }
+
+  handleButtons(disabled) {
+    clearInterval(this.setUpdateTimer);
+    this.setState({
+      buttonDisabled: disabled,
+    });
   }
 
   startTime() {
@@ -151,7 +144,6 @@ class QuestionAnswers extends React.Component {
 
   renderQuestionsAndAnswers = () => {
     const { questions, questionNumber, buttonDisabled, timerCountDown } = this.state;
-
     return questions.map((element, index) => {
       let answers = [];
       answers.push({
@@ -162,11 +154,8 @@ class QuestionAnswers extends React.Component {
         text: incorrectAns,
         wrong: true,
       }));
-
       answers = shuffle(answers);
-
       let wrongIndex = 0;
-
       return (
         <>
           <div key={ index } data-testid="question-category">
@@ -213,11 +202,9 @@ class QuestionAnswers extends React.Component {
 
     return (
       <div>
-
         <div>
           { this.renderQuestionsAndAnswers()}
         </div>
-
         <div>
           <Timer />
           { buttonNext && (
@@ -230,7 +217,6 @@ class QuestionAnswers extends React.Component {
             </button>
           )}
         </div>
-
       </div>
 
     );
