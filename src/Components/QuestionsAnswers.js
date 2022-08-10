@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import fetchQuestions from '../Services/fetchQuestions';
+import Timer from './Timer';
+import { decreaseCountdown } from '../Redux/actions';
 
 // https://stackoverflow.com/questions/64522159/shuffle-the-array-of-objects-without-picking-the-same-item-multiple-times
 function shuffle(array) {
@@ -29,11 +32,19 @@ class QuestionAnswers extends React.Component {
       questions: [],
       questionNumber: 0,
       buttonNext: false,
+      buttonDisabled: false,
     };
   }
 
   componentDidMount() {
     this.saveQuestionsToState();
+  }
+
+  componentDidUpdate() {
+    const { timer } = this.props;
+    if (timer <= 0) {
+      clearInterval(this.setUpdateTimer);
+    }
   }
 
   saveQuestionsToState = async () => {
@@ -47,7 +58,7 @@ class QuestionAnswers extends React.Component {
 
     return this.setState({
       questions: questions.results,
-    });
+    }, () => { this.updateCountdown(); this.startTime(); });
   }
 
   handleClickAnswer = () => {
@@ -59,19 +70,32 @@ class QuestionAnswers extends React.Component {
     const { history } = this.props;
 
     if (questionNumber === questions.length - 1) {
-      // console.log('fim');
-      // console.log(history);
+      console.log('fim');
+      console.log(history);
       history.push('/feedback');
     }
-    // console.log('clicou');
-    // console.log(questionNumber);
+    console.log('clicou');
+    console.log(questionNumber);
     this.setState((prevState) => ({ questionNumber: prevState.questionNumber + 1 }));
-    // resetar timer
+    // this.updateCountdown(); // reseta timer
     // atualizar display contador de pontos
   }
 
+  startTime() {
+    const timer = 30000;
+    setTimeout(() => this.setState({
+      buttonDisabled: true,
+    }), timer);
+  }
+
+  updateCountdown() {
+    const { decreaseTimerCountdown } = this.props;
+    const timerDecrease = 1000;
+    this.setUpdateTimer = setInterval(() => decreaseTimerCountdown(), timerDecrease);
+  }
+
   renderQuestionsAndAnswers = () => {
-    const { questions, questionNumber } = this.state;
+    const { questions, questionNumber, buttonDisabled } = this.state;
 
     return questions.map((element, index) => {
       let answers = [];
@@ -85,6 +109,7 @@ class QuestionAnswers extends React.Component {
       }));
 
       answers = shuffle(answers);
+
       let wrongIndex = 0;
 
       return (
@@ -108,6 +133,7 @@ class QuestionAnswers extends React.Component {
                   key={ answer.text }
                   type="button"
                   data-testid={ testId }
+                  disabled={ buttonDisabled }
                   onClick={ this.handleClickAnswer }
                 >
                   {answer.text}
@@ -126,8 +152,9 @@ class QuestionAnswers extends React.Component {
     return (
       <div>
         <div>
-          {this.renderQuestionsAndAnswers()}
+          { this.renderQuestionsAndAnswers()}
         </div>
+        <Timer />
         { buttonNext && (
           <button
             type="button"
@@ -148,4 +175,12 @@ QuestionAnswers.propTypes = {
   }),
 }.isRequired;
 
-export default QuestionAnswers;
+const mapDispatchToProps = (dispatch) => ({
+  decreaseTimerCountdown: () => dispatch(decreaseCountdown()),
+});
+
+const mapStateToProps = (state) => ({
+  timer: state.timer.timer,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(QuestionAnswers);
