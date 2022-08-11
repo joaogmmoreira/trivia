@@ -1,7 +1,8 @@
-/* stylelint-disable */
-
+/* stylelint-disable rule-empty-line-before */
 /* https://getcssscan.com/css-buttons-examples */
+
 /* https://cssgradient.io/ */
+
 /* https://programmersportal.com/how-to-give-space-between-two-buttons-in-css */
 
 * {
@@ -21,10 +22,7 @@
 /* background-color: #072053; */
 .QA-div {
   align-items: center;
-  background: radial-gradient(circle,
-  rgba(2, 0, 36, 1) 30%,
-  /* rgb(6, 6, 103) 90%, */
-  rgba(1, 18, 47, 0.866) 100%);
+  background: radial-gradient(circle rgba(2, 0, 36, 1) 30%, rgba(1, 18, 47, 0.866) 100%);
   color: white;
   display: flex;
   flex-direction: column;
@@ -44,47 +42,48 @@ button {
   font-size: 14px;
   height: 36px;
   line-height: 27px;
+  margin-bottom: 25px;
+  margin-right: 25px;
+  margin-top: 25px;
   min-width: 54px;
   padding: 0 16px;
   text-align: center;
-  user-select: none;
   touch-action: manipulation;
+  user-select: none;
   white-space: pre;
-  margin-top: 25px;
-  margin-right: 25px;
-  margin-bottom: 25px;
 }
 
 .questionCategory {
-  margin-top: 25px;
-  margin-right: 25px;
   margin-bottom: 25px;
+  margin-right: 25px;
+  margin-top: 25px;
 }
 
 .buttonNext {
   appearance: button;
-  background-color: #4D4AE8;
+  background-color: #4d4ae8;
   background-image: linear-gradient(180deg, rgba(255, 255, 255, .15), rgba(255, 255, 255, 0));
-  border: 1px solid #4D4AE8;
+  border: 1px solid #4d4ae8;
   border-radius: 1rem;
   box-shadow: rgba(255, 255, 255, 0.15) 0 1px 0 inset,rgba(46, 54, 80, 0.075) 0 1px 1px;
   box-sizing: border-box;
-  color: #FFFFFF;
+  color: white;
   cursor: pointer;
   display: inline-block;
-  font-family: Inter,sans-serif;
+  font-family: Inter, sans-serif;
   font-size: 1rem;
   font-weight: 500;
   line-height: 1.5;
   margin-top: 25px;
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
   text-align: center;
   text-transform: none;
-  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-  user-select: none;
-  -webkit-user-select: none;
   touch-action: manipulation;
+  transition: color 0.15s ease-in-out background-color 0.15s ease-in-out
+    border-color 0.15s ease-in-out box-shadow 0.15s ease-in-out;
+  user-select: none;
   vertical-align: middle;
+  -webkit-user-select: none;
 }
 
 .buttonNext:focus:not(:focus-visible),
@@ -93,20 +92,20 @@ button {
 }
 
 .buttonNext:hover {
-  background-color: #3733E5;
-  border-color: #3733E5;
+  background-color: #3733e5;
+  border-color: #3733e5;
 }
 
 .buttonNext:focus {
-  background-color: #413FC5;
-  border-color: #3E3BBA;
+  background-color: #413fc5;
+  border-color: #3e3bba;
   box-shadow: rgba(255, 255, 255, 0.15) 0 1px 0 inset, rgba(46, 54, 80, 0.075) 0 1px 1px, rgba(104, 101, 235, 0.5) 0 0 0 .2rem;
 }
 
 .buttonNext:active {
-  background-color: #3E3BBA;
+  background-color: #3e3bba;
   background-image: none;
-  border-color: #3A38AE;
+  border-color: #3a38ae;
   box-shadow: rgba(46, 54, 80, 0.125) 0 3px 5px inset;
 }
 
@@ -117,6 +116,6 @@ button {
 .buttonNext:disabled {
   background-image: none;
   box-shadow: none;
-  opacity: .65;
+  opacity: 0.65;
   pointer-events: none;
 }

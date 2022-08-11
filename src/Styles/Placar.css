@@ -1,14 +1,13 @@
- /* stylelint-disable */
-
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-.score{
+.score {
   margin-top: 25px;
 }
-.assertions{
+
+.assertions {
   margin-top: 25px;
 }
