@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import fetchQuestions from '../Services/fetchQuestions';
 import Timer from './Timer';
-import { decreaseCountdown, setAssertions, setScore } from '../Redux/actions';
+import { decreaseCountdown,
+  resetCountdown,
+  setAssertions, setScore } from '../Redux/actions';
 import '../Pages/Games.css';
 
+// https://stackoverflow.com/questions/64522159/shuffle-the-array-of-objects-without-picking-the-same-item-multiple-times
 function shuffle(array) {
   let currentIndex = array.length; let
     randomIndex;
@@ -27,6 +30,7 @@ class QuestionAnswers extends React.Component {
       questionNumber: 0,
       buttonNext: false,
       buttonDisabled: false,
+      timerCountDown: 0,
     };
   }
 
@@ -75,7 +79,6 @@ class QuestionAnswers extends React.Component {
     const medium = 2;
     const hard = 3;
     let points;
-
     if (difficulty === 'easy') {
       points = fixedPoint + (timer * easy);
     }
@@ -85,7 +88,6 @@ class QuestionAnswers extends React.Component {
     if (difficulty === 'hard') {
       points = fixedPoint + (timer * hard);
     }
-
     return points;
   }
 
@@ -107,29 +109,31 @@ class QuestionAnswers extends React.Component {
   }
 
   handleOnClickNext = () => {
+    clearInterval(this.setTimer);
     const { questionNumber, questions } = this.state;
-    const { history } = this.props;
-
+    const { history, resetTimerCountdown } = this.props;
     if (questionNumber === questions.length - 1) {
-      console.log('fim');
-      console.log(history);
       history.push('/feedback');
     }
-    console.log('clicou');
-    console.log(questionNumber);
-    this.setState((prevState) => ({
-      questionNumber: prevState.questionNumber + 1,
-      buttonNext: false,
+    this.handleButtons(false);
+    resetTimerCountdown();
+    this.updateCountdown();
+    this.startTime();
+    this.setState((prevState) => ({ questionNumber: prevState.questionNumber + 1,
+      timerCountDown: 30,
     }));
-    // this.updateCountdown(); // reseta timer
-    // atualizar display contador de pontos
+  }
+
+  handleButtons(disabled) {
+    clearInterval(this.setUpdateTimer);
+    this.setState({
+      buttonDisabled: disabled,
+    });
   }
 
   startTime() {
     const timer = 30000;
-    setTimeout(() => this.setState({
-      buttonDisabled: true,
-    }), timer);
+    this.setTimer = setTimeout(() => this.handleButtons(true), timer);
   }
 
   updateCountdown() {
@@ -139,8 +143,7 @@ class QuestionAnswers extends React.Component {
   }
 
   renderQuestionsAndAnswers = () => {
-    const { questions, questionNumber, buttonDisabled } = this.state;
-
+    const { questions, questionNumber, buttonDisabled, timerCountDown } = this.state;
     return questions.map((element, index) => {
       let answers = [];
       answers.push({
@@ -151,11 +154,8 @@ class QuestionAnswers extends React.Component {
         text: incorrectAns,
         wrong: true,
       }));
-
       answers = shuffle(answers);
-
       let wrongIndex = 0;
-
       return (
         <>
           <div key={ index } data-testid="question-category">
@@ -184,6 +184,8 @@ class QuestionAnswers extends React.Component {
                   disabled={ buttonDisabled }
                   onClick={ this.handleClickAnswer }
                   value={ element.difficulty }
+                  handleButtons={ this.handleButtons }
+                  timer={ timerCountDown }
                 >
                   {answer.text}
                 </button>
@@ -200,11 +202,9 @@ class QuestionAnswers extends React.Component {
 
     return (
       <div>
-
         <div>
           { this.renderQuestionsAndAnswers()}
         </div>
-
         <div>
           <Timer />
           { buttonNext && (
@@ -217,7 +217,6 @@ class QuestionAnswers extends React.Component {
             </button>
           )}
         </div>
-
       </div>
 
     );
@@ -234,6 +233,7 @@ const mapDispatchToProps = (dispatch) => ({
   decreaseTimerCountdown: () => dispatch(decreaseCountdown()),
   dispatchScore: (points) => dispatch(setScore(points)),
   dispatchAssertions: (assertion) => dispatch(setAssertions(assertion)),
+  resetTimerCountdown: () => dispatch(resetCountdown()),
 });
 
 const mapStateToProps = (state) => ({
