@@ -3,22 +3,10 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 class Ranking extends React.Component {
-  // componentDidMount() {
-  //   this.setPlayer();
-  // }
-
   handleClick = () => {
     const { history } = this.props;
     history.push('/');
   }
-
-  // setPlayer = () => {
-  //   const { player } = this.props;
-
-  //   if (player.name.length > 0) {
-  //     localStorage.setItem(player.name, [JSON.stringify(player)]);
-  //   }
-  // }
 
   getPlayers = () => {
     const localStorageKeys = Object.keys(localStorage);
@@ -83,11 +71,6 @@ Ranking.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-  // player: PropTypes.shape({
-  //   name: PropTypes.shape({
-  //     length: PropTypes.number,
-  //   }),
-  // }).isRequired,
 };
 
 export default connect(mapStateToProps)(Ranking);
