@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 * {
+=======
+/* stylelint-disable */
+
+/* * {
+>>>>>>> 1556aa26cb2729926b58958c05d9454849a5eba8
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -9,8 +15,13 @@ header {
   background: rgba(2, 0, 36, 1);
   color: white;
   display: flex;
+<<<<<<< HEAD
   padding: 10px 0;
   position: fixed;
   top: 0;
   width: 100%;
 }
+=======
+  align-items: flex-start;
+} */
+>>>>>>> 1556aa26cb2729926b58958c05d9454849a5eba8
