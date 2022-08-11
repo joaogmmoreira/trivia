@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import HeaderFeedback from '../Components/HeaderFeedback';
 import PlayAgain from '../Components/PlayAgain';
+import Placar from '../Components/Placar';
 
 class Feedback extends React.Component {
   feedbackMessage() {
@@ -25,6 +26,7 @@ class Feedback extends React.Component {
         <PlayAgain history={ history } />
 
         { this.feedbackMessage() }
+        <Placar />
       </div>
     );
   }
