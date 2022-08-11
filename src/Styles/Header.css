@@ -1,0 +1,18 @@
+/* stylelint-disable */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  top: 0;
+  width: 100%;
+  position: fixed;
+  background: rgba(2, 0, 36, 1);
+  padding: 10px 0;
+  color: white;
+  display: flex;
+  align-items: flex-start;
+}
