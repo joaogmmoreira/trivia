@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import HeaderFeedback from '../Components/HeaderFeedback';
+import PlayAgain from '../Components/PlayAgain';
 
 class Feedback extends React.Component {
   feedbackMessage() {
@@ -15,20 +17,29 @@ class Feedback extends React.Component {
   }
 
   render() {
+    const { history } = this.props;
     return (
       <div>
+        <HeaderFeedback />
+        <PlayAgain history={ history } />
+        
         <h1>Feedback</h1>
         { this.feedbackMessage() }
       </div>
     );
   }
 }
+
 const mapStateToProps = ({ player }) => ({
   assertions: player.assertions,
 });
 
+
 Feedback.propTypes = {
   assertions: PropTypes.number.isRequired,
-};
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+}.isRequired;
 
 export default connect(mapStateToProps, null)(Feedback);
