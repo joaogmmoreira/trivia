@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import HeaderFeedback from '../Components/HeaderFeedback';
 import PlayAgain from '../Components/PlayAgain';
 import Placar from '../Components/Placar';
+import '../Styles/Feedback.css';
 
 class Feedback extends React.Component {
   feedbackMessage() {
@@ -20,7 +21,7 @@ class Feedback extends React.Component {
   render() {
     const { history } = this.props;
     return (
-      <div>
+      <div className="feedbackDiv">
         <h1>Feedback</h1>
         <HeaderFeedback />
         <PlayAgain history={ history } />
