@@ -1,17 +1,12 @@
- /* stylelint-disable */
-
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-.feedbackDiv{
+.feedbackDiv {
   align-items: center;
-  background: radial-gradient(circle,
-  rgba(2, 0, 36, 1) 30%,
-  /* rgb(6, 6, 103) 90%, */
-  rgba(1, 18, 47, 0.866) 100%);
+  background: radial-gradient(circle rgba(2, 0, 36, 1) 30% rgba(1, 18, 47, 0.866) 100%);
   color: white;
   display: flex;
   flex-direction: column;
