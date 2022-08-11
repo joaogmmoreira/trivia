@@ -6,7 +6,7 @@ import Timer from './Timer';
 import { decreaseCountdown,
   resetCountdown,
   setAssertions, setScore } from '../Redux/actions';
-import '../Pages/Games.css';
+import '../Styles/QuestionsAnswers.css';
 
 // https://stackoverflow.com/questions/64522159/shuffle-the-array-of-objects-without-picking-the-same-item-multiple-times
 function shuffle(array) {
@@ -65,10 +65,10 @@ class QuestionAnswers extends React.Component {
     for (let i = 0; i < childrenElements.length; i += 1) {
       const elementClass = (childrenElements[i].classList);
       if (elementClass.value === 'red') {
-        elementClass.add('redd');
+        elementClass.add('redBorder');
       }
       if (elementClass.value === 'green') {
-        elementClass.add('greenn');
+        elementClass.add('greenBorder');
       }
     }
   }
@@ -158,7 +158,7 @@ class QuestionAnswers extends React.Component {
       let wrongIndex = 0;
       return (
         <>
-          <div key={ index } data-testid="question-category">
+          <div className="questionCategory" key={ index } data-testid="question-category">
             {element.category}
           </div>
           <div data-testid="question-text">
@@ -201,8 +201,8 @@ class QuestionAnswers extends React.Component {
     const { buttonNext } = this.state;
 
     return (
-      <div>
-        <div>
+      <div className="QA-div">
+        <div className="button-div">
           { this.renderQuestionsAndAnswers()}
         </div>
         <div>
@@ -212,6 +212,8 @@ class QuestionAnswers extends React.Component {
               type="button"
               data-testid="btn-next"
               onClick={ this.handleOnClickNext }
+              className="buttonNext"
+
             >
               Next
             </button>
