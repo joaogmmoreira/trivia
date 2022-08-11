@@ -20,10 +20,10 @@ class Feedback extends React.Component {
     const { history } = this.props;
     return (
       <div>
+        <h1>Feedback</h1>
         <HeaderFeedback />
         <PlayAgain history={ history } />
-        
-        <h1>Feedback</h1>
+
         { this.feedbackMessage() }
       </div>
     );
@@ -33,7 +33,6 @@ class Feedback extends React.Component {
 const mapStateToProps = ({ player }) => ({
   assertions: player.assertions,
 });
-
 
 Feedback.propTypes = {
   assertions: PropTypes.number.isRequired,
