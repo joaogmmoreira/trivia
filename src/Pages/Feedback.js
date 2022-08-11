@@ -1,12 +1,47 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import Ranking from './Ranking';
 import HeaderFeedback from '../Components/HeaderFeedback';
 import PlayAgain from '../Components/PlayAgain';
 import Placar from '../Components/Placar';
 import '../Styles/Feedback.css';
 
 class Feedback extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      ranking: false,
+    };
+  }
+
+  componentDidMount() {
+    this.setPlayer();
+  }
+
+    setPlayer = () => {
+      const { player } = this.props;
+
+      if (player.name.length > 0) {
+        localStorage.setItem(player.name, [JSON.stringify(player)]);
+      }
+    }
+
+  handleClickShowRanking = () => {
+    this.setState({
+      ranking: true,
+    }, () => {
+      this.renderRanking();
+    });
+  }
+
+  handleClickHideRanking = () => {
+    this.setState({
+      ranking: false,
+    });
+  }
+
   feedbackMessage() {
     const { assertions } = this.props;
     const three = 3;
@@ -18,24 +53,77 @@ class Feedback extends React.Component {
     }
   }
 
+  renderRanking = () => {
+    const { ranking } = this.state;
+    const { history } = this.props;
+    if (ranking) {
+      return (
+        <>
+          <Ranking history={ history } />
+          <button
+            type="button"
+            onClick={ this.handleClickHideRanking }
+          >
+            Hide Ranking
+          </button>
+        </>
+      );
+    }
+    if (!ranking) {
+      return (
+        <button
+          type="button"
+          data-testid="btn-ranking"
+          onClick={ this.handleClickShowRanking }
+        >
+          Show Ranking
+        </button>
+      );
+    }
+  }
+
   render() {
     const { history } = this.props;
     return (
-      <div className="feedbackDiv">
-        <h1>Feedback</h1>
-        <HeaderFeedback />
-        <PlayAgain history={ history } />
+      <section>
 
+        <div>
+          {this.renderRanking()}
+        </div>
+
+        <h1>Feedback</h1>
+
+        <HeaderFeedback />
         { this.feedbackMessage() }
         <Placar />
-      </div>
+
+        <PlayAgain history={ history } />
+      </section>
     );
   }
 }
 
-const mapStateToProps = ({ player }) => ({
-  assertions: player.assertions,
+Feedback.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+  player: PropTypes.shape({
+    name: PropTypes.shape({
+      length: PropTypes.number,
+    }),
+  }).isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  player: state.player,
+  assertions: state.player.assertions,
 });
+
+export default connect(mapStateToProps)(Feedback);
+
+// const mapStateToProps = ({ player }) => ({
+//   assertions: player.assertions,
+// });
 
 Feedback.propTypes = {
   assertions: PropTypes.number.isRequired,
@@ -43,5 +131,3 @@ Feedback.propTypes = {
     push: PropTypes.func,
   }),
 }.isRequired;
-
-export default connect(mapStateToProps, null)(Feedback);

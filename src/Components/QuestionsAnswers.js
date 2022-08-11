@@ -7,7 +7,6 @@ import { decreaseCountdown,
   resetCountdown,
   setAssertions, setScore } from '../Redux/actions';
 import '../Styles/QuestionsAnswers.css';
-
 // https://stackoverflow.com/questions/64522159/shuffle-the-array-of-objects-without-picking-the-same-item-multiple-times
 function shuffle(array) {
   let currentIndex = array.length; let
@@ -20,7 +19,6 @@ function shuffle(array) {
   }
   return array;
 }
-
 class QuestionAnswers extends React.Component {
   constructor() {
     super();
@@ -48,12 +46,10 @@ class QuestionAnswers extends React.Component {
   saveQuestionsToState = async () => {
     const { history } = this.props;
     const questions = await fetchQuestions();
-
     if (questions.response_code !== 0) {
       localStorage.removeItem('token');
       history.push('/');
     }
-
     return this.setState({
       questions: questions.results,
     }, () => { this.updateCountdown(); this.startTime(); });
@@ -115,6 +111,11 @@ class QuestionAnswers extends React.Component {
     if (questionNumber === questions.length - 1) {
       history.push('/feedback');
     }
+    this.setState((prevState) => ({
+      questionNumber: prevState.questionNumber + 1,
+      buttonNext: false,
+    }));
+
     this.handleButtons(false);
     resetTimerCountdown();
     this.updateCountdown();
