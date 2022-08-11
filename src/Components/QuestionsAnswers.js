@@ -111,18 +111,13 @@ class QuestionAnswers extends React.Component {
     const { history } = this.props;
 
     if (questionNumber === questions.length - 1) {
-      console.log('fim');
-      console.log(history);
       history.push('/feedback');
     }
-    console.log('clicou');
     console.log(questionNumber);
     this.setState((prevState) => ({
       questionNumber: prevState.questionNumber + 1,
       buttonNext: false,
     }));
-    // this.updateCountdown(); // reseta timer
-    // atualizar display contador de pontos
   }
 
   startTime() {
